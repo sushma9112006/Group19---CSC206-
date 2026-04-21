@@ -1,105 +1,190 @@
-# Group 19
-## CSC 206 Project
+Group 19 — CSC 206 Project
 
-# IMEI Track
+IMEI Track
 
-## Project Overview
 
-IMEI Track is a mobile and backend based project developed for device registration, lost phone reporting, and suspicious device detection. The main purpose of this project is to improve device tracking and help identify possible misuse of IMEI details. The system allows users to verify their number using OTP, register their device, connect with friends, flag a lost phone, and detect suspicious devices using TAC and device property comparison.
+---
 
-This project has three major parts.
+1. Project Overview
 
-The Flutter mobile application
+IMEI Track is a full-stack mobile + backend system designed to:
 
-The Node.js backend server
+Register devices securely
 
-The PostgreSQL database
+Report lost phones
 
-## Technologies Used
+Detect suspicious or cloned devices
 
-Flutter
 
-Dart
+Core Idea (Simple Analogy)
 
-Node.js
+Think of this system like a digital police station for phones:
 
-Express.js
+OTP → verifies who you are
 
-PostgreSQL
+Device registration → records your phone identity
 
-Google ML Kit OCR
+TAC + hardware check → verifies if the phone is genuine
 
-Shared Preferences
+Alerts → warns if someone is using a fake/duplicate identity
 
-HTTP API communication
 
-## Modules in the Project
 
-### Mobile Application
+---
 
-The Flutter app is the user side of the project. It is used for OTP verification, device registration, OCR based IMEI reading, friend linking, lost phone flagging, unflagging, and unregistering a device.
+2. System Architecture
 
-### Backend Server
+The project follows a 3-tier architecture:
 
-The backend is developed using Node.js and Express. It handles OTP generation and verification, device registration logic, friend connection logic, suspicious device checks, alert creation, and all database operations.
+[ User ]
+   ↓
+[ Flutter App ]        → User interaction (frontend)
+   ↓
+[ Node.js Backend ]    → Logic, validation, APIs
+   ↓
+[ PostgreSQL DB ]      → Data storage
 
-### Database
 
-PostgreSQL is used to store user data, OTP requests, device details, friend links, lost flag records, suspicious devices, alerts, and TAC catalog data.
+---
 
-## Main Features
+3. Technologies Used
 
-User login using OTP verification
+Layer	Technology	Purpose
 
-Automatic device details collection
+Frontend	Flutter + Dart	Mobile app UI
+Backend	Node.js + Express	API and logic
+Database	PostgreSQL	Data storage
+OCR	Google ML Kit	Extract IMEI from images
+Storage	Shared Preferences	Local app data
+Networking	HTTP APIs	App ↔ Server communication
 
-OCR based IMEI extraction from uploaded screenshots
+
+
+---
+
+4. Project Modules
+
+4.1 Mobile Application (Flutter)
+
+Handles everything the user interacts with:
+
+OTP login
 
 Device registration
 
-Friend linking through OTP verification
+OCR IMEI extraction
 
-Option to assign a custom name to a friend
+Friend linking
 
-Default friend names like Friend 1, Friend 2 when no custom name is given
+Lost phone flagging
 
-Option to edit friend names later
+Viewing alerts
 
-Option to flag a friend’s device as lost
 
-Option to unflag a device later
 
-Suspicious device detection when TAC does not match the expected device model
+---
 
-Alert generation for the original user when a suspicious matching device is found
+4.2 Backend Server (Node.js + Express)
 
-Confirmation dialog before unregistering a device
+Acts as the brain of the system:
 
-IMEI entry only through OCR upload and not by manual typing
+OTP generation & verification
 
-## Project Folder Structure
+Device validation logic
 
-### `backend`
+TAC matching
 
-Contains the Node.js backend files such as `server.js`, `package.json`, and `package-lock.json`.
+Suspicious device detection
 
-### `imei_app`
+Alert creation
 
-Contains the Flutter application source code and project configuration.
+Database communication
 
-### `database_setup.sql`
 
-Contains the SQL required to create the database tables used in the project.
 
-## How to Use the Source Code
+---
 
-The source code is divided into backend, mobile application, and database setup. To run the complete project, the database should be set up first, then the backend server should be started, and then the Flutter mobile app should be run.
+4.3 Database (PostgreSQL)
 
-## Step by Step Setup Instructions
+Stores all system data:
 
-### Step 1: Install the required software
+Table Name	Purpose
 
-Make sure the following software is installed in your system.
+users	User accounts
+otp_requests	OTP tracking
+devices	Registered devices
+friend_links	User connections
+lost_flags	Lost device records
+alerts	Notifications
+suspicious_devices	Detected suspicious entries
+tac_catalog	IMEI TAC database
+
+
+
+---
+
+5. Key Features
+
+Authentication
+
+OTP-based login (secure and simple)
+
+
+Device Handling
+
+Automatic device info collection
+
+IMEI extraction using OCR (no manual typing)
+
+
+Social Layer
+
+Friend linking via OTP
+
+Custom naming + default names
+
+Edit names anytime
+
+
+Security Features
+
+Lost phone flagging / unflagging
+
+TAC-based verification
+
+Suspicious device detection
+
+
+Alerts
+
+User notified if a duplicate/suspicious device appears
+
+
+
+---
+
+6. Project Folder Structure
+
+project-root/
+│
+├── backend/
+│   ├── server.js
+│   ├── package.json
+│   └── package-lock.json
+│
+├── imei_app/
+│   └── Flutter source code
+│
+└── database_setup.sql
+
+
+---
+
+7. Complete Setup Guide (Step-by-Step)
+
+Step 1: Install Required Software
+
+Install these first:
 
 Flutter SDK
 
@@ -109,171 +194,324 @@ Node.js
 
 PostgreSQL
 
-A code editor such as VS Code
+VS Code (or any editor)
 
-### Step 2: Set up PostgreSQL database
 
-1. Open PostgreSQL or pgAdmin.
-2. Create a new database named `imei_db`.
-3. Open the SQL query tool.
-4. Run the file named `database_setup.sql`.
 
-This will create the required tables such as:
+---
 
-`users`
+Step 2: Setup Database
 
-`otp_requests`
+1. Open PostgreSQL / pgAdmin
 
-`devices`
 
-`friend_links`
+2. Create database:
 
-`flagged_devices`
 
-`lost_flags`
 
-`alerts`
+imei_db
 
-`suspicious_devices`
+3. Open Query Tool
 
-`tac_catalog`
 
-### Step 3: Check backend database configuration
+4. Run:
 
-1. Open the `backend` folder.
-2. Open `server.js`.
-3. Check the database configuration values and update them if needed according to your system.
 
-The backend in this project uses the following default values:
 
-Database name: `imei_db`
+database_setup.sql
 
-User: `postgres`
+This creates all required tables automatically.
 
-Host: `localhost`
 
-Port: `3000`
+---
 
-### Step 4: Install backend dependencies
+Step 3: Configure Backend
 
-Open terminal in the `backend` folder and run:
+1. Go to backend/
 
-```bash
+
+2. Open server.js
+
+
+3. Verify database config:
+
+
+
+database: imei_db
+user: postgres
+host: localhost
+port: 3000
+
+Modify only if needed.
+
+
+---
+
+Step 4: Install Backend Dependencies
+
+cd backend
 npm install
 
-#### Step 5: Start the backend server
-In the same backend folder terminal, run:
-``` bash
+
+---
+
+Step 5: Start Backend Server
+
 node server.js
-If everything is correct, the backend server will start and run on port 4000.
 
-### Step 6: Set the backend URL in Flutter app
-1. Open the Flutter project inside the imei_app folder.
-2. Open lib/main.dart.
-3. Check the baseUrl value.
-3. Make sure it points to the IP address and port where the backend is running.
-If you are testing on a real Android phone, use your computer’s local network IP address.
+Expected:
 
-## Step 7: Install Flutter dependencies
+Server running on port 4000
 
-Open terminal in the `imei_app` folder and run:
 
-```bash
+---
+
+Step 6: Configure Flutter Backend URL
+
+1. Open:
+
+
+
+imei_app/lib/main.dart
+
+2. Find:
+
+
+
+baseUrl
+
+3. Set it to:
+
+
+
+Emulator:
+
+http://10.0.2.2:4000
+
+Real Phone (same WiFi):
+
+http://<your-laptop-ip>:4000
+
+
+
+---
+
+Step 7: Install Flutter Dependencies
+
+cd imei_app
 flutter pub get
-This downloads all Flutter packages used in the project.
 
-## Step 8: Run the Flutter app
 
-Connect an Android phone using USB debugging or open an Android emulator.
+---
 
-In the `imei_app` folder terminal, run:
+Step 8: Run the App
 
-```bash
-flutter run
-This will launch the application.
+Option 1: USB Device
 
-## How to Build the App
+Enable Developer Options
 
-To create a release build of the Flutter application, follow these steps:
+Enable USB Debugging
 
-Open terminal in the `imei_app` folder.
 
 Run:
 
-```bash
+flutter run
+
+
+---
+
+Option 2: Emulator
+
+Start emulator from Android Studio
+
+Run:
+
+
+flutter run
+
+
+---
+
+8. Build APK (Install on Phone)
+
 flutter clean
 flutter pub get
 flutter build apk
-After the build completes, the APK file can usually be found in the Flutter build output folder.
 
-## How to Test the Project
+APK location:
 
-Make sure PostgreSQL is running.
+build/app/outputs/flutter-apk/
 
-Make sure the `imei_db` database is created.
+Install this APK on your phone.
 
-Make sure `database_setup.sql` has been executed.
 
-Start the backend server using:
+---
 
-```bash
+9. Testing Guide (Full Flow)
+
+Follow this sequence:
+
+1. Start backend
+
 node server.js
 
-Install the generated APK on an Android device.
+2. Open app
 
-Open the application on the Android device.
+3. Test features step-by-step
 
-Enter a phone number and request OTP.
+Authentication
 
-Verify the OTP.
+Enter phone number
 
-Register the device.
+Verify OTP
 
-Check whether device details are fetched properly.
 
-Upload a screenshot to extract the IMEI using OCR.
+Device Registration
 
-Link a friend using OTP.
+Check auto device info
 
-Give a friend name or leave it blank to check default naming.
+Upload screenshot → OCR extracts IMEI
 
-Try editing the friend name later from the friends section.
 
-Try flagging and unflagging a device.
+Friend Linking
 
-Try testing suspicious device detection using TAC mismatch and matching hardware details.
+Add friend via OTP
 
-### TAC Catalog Included in the Database Setup
-The database_setup.sql file also contains sample TAC entries for testing the suspicious device detection logic. These entries include common brands and models such as Apple, Samsung, Google, Xiaomi, OnePlus, and Nothing.
+Try:
 
-One of the important Samsung entries included is:
+Custom name
 
-35081449 Samsung Galaxy M1565B
+No name → default name
 
-This has been added specifically for correct TAC and model matching in the project.
 
-## How the System Works
-First, the user verifies their phone number through OTP. After successful verification, the user registers their device. The app collects device related details and extracts the IMEI through OCR from an uploaded screenshot.
 
-Once the device is registered, the user can connect with friends using OTP verification. After verification, the app asks the user to provide a name for the friend. If the user does not provide a name, the system assigns a default sequential name such as Friend 1 or Friend 2. The name can also be edited later from the My Friends section.
+Editing
 
-The user can flag a lost phone and unflag it when needed. The backend checks whether a newly registered device is suspicious by comparing the TAC number and device details. If a suspicious device with matching characteristics is found, an alert is created for the original concerned user.
+Change friend names
 
-### Important Notes
-The backend must be started before running the mobile app.
 
-The database must be created before starting the backend.
+Lost Device
 
-The Flutter app should use the correct backend IP address in the baseUrl.
+Flag device
 
-The IMEI is intended to be captured using OCR upload.
+Unflag device
 
-The unregister feature shows a confirmation dialog before removing the device.
 
-The app may need device permissions depending on the Android device and OCR use.
+Suspicious Detection
 
-## Conclusion
-IMEI Track is a complete project that combines mobile development, backend development, and database management. It demonstrates how OTP verification, device registration, OCR based IMEI reading, friend linking, lost phone reporting, and suspicious device detection can be integrated into one system.
+Test mismatched TAC + device details
+
+
+Alerts
+
+Verify alert creation
+
+
+
+---
+
+10. TAC Catalog
+
+The database includes sample TAC entries such as:
+
+Apple
+
+Samsung
+
+Xiaomi
+
+OnePlus
+
+Nothing
+
+
+Example Entry:
+
+35081449 → Samsung Galaxy M1565B
+
+Used for realistic testing of device validation.
+
+
+---
+
+11. System Workflow (Simple Explanation)
+
+1. User logs in via OTP
+
+
+2. App collects device info
+
+
+3. IMEI extracted using OCR
+
+
+4. Device is registered
+
+
+5. Backend checks:
+
+TAC validity
+
+Device consistency
+
+
+
+6. If mismatch → marked suspicious
+
+
+7. Alerts sent to original user
+
+
+
+
+---
+
+12. Important Notes
+
+Backend must be running before app
+
+Database must be set up first
+
+Correct baseUrl is critical
+
+OCR requires permissions
+
+Unregister action shows confirmation
+
+
+
+---
+
+13. Conclusion
+
+This project demonstrates how multiple systems work together:
+
+Mobile app (user interaction)
+
+Backend (logic & validation)
+
+Database (persistent storage)
+
+
+It integrates:
+
+OTP authentication
+
+Device fingerprinting
+
+OCR-based IMEI extraction
+
+Social trust network
+
+Security alert system
+
+
+Result:
+A complete and practical solution for device authenticity and tracking.
+
+
+---
 
 Prepared By
+
 Group 19
