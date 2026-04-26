@@ -1,13 +1,28 @@
-Group 19 — CSC 206 Project
+---
 
 IMEI Track
+
+Note on Project Structure
+
+The project is divided into three major components:
+
+Flutter Mobile App (imei_app/) → User interaction layer
+
+Node.js Backend (backend/) → Core logic and APIs
+
+PostgreSQL Database (database_setup.sql) → Persistent storage
+
+
+All components must run together for the system to function correctly.
 
 
 ---
 
-1. Project Overview
+Overview
 
-IMEI Track is a full-stack mobile + backend system designed to:
+IMEI Track is a full-stack system designed to improve mobile device security and traceability.
+
+The system allows users to:
 
 Register devices securely
 
@@ -16,79 +31,79 @@ Report lost phones
 Detect suspicious or cloned devices
 
 
-Core Idea (Simple Analogy)
+Core Idea (Analogy)
 
 Think of this system like a digital police station for phones:
 
-OTP → verifies who you are
+OTP → verifies identity
 
-Device registration → records your phone identity
+Device registration → records phone identity
 
-TAC + hardware check → verifies if the phone is genuine
+TAC + hardware check → validates authenticity
 
-Alerts → warns if someone is using a fake/duplicate identity
+Alerts → warn about duplicate or suspicious devices
 
 
 
 ---
 
-2. System Architecture
+System Architecture
 
-The project follows a 3-tier architecture:
+The system follows a 3-tier architecture:
 
 [ User ]
    ↓
-[ Flutter App ]        → User interaction (frontend)
+[ Flutter App ]        → Frontend (UI)
    ↓
-[ Node.js Backend ]    → Logic, validation, APIs
+[ Node.js Backend ]    → Business logic & APIs
    ↓
 [ PostgreSQL DB ]      → Data storage
 
 
 ---
 
-3. Technologies Used
+Technologies Used
 
 Layer	Technology	Purpose
 
-Frontend	Flutter + Dart	Mobile app UI
-Backend	Node.js + Express	API and logic
-Database	PostgreSQL	Data storage
-OCR	Google ML Kit	Extract IMEI from images
-Storage	Shared Preferences	Local app data
-Networking	HTTP APIs	App ↔ Server communication
+Frontend	Flutter + Dart	Mobile application UI
+Backend	Node.js + Express	API and core logic
+Database	PostgreSQL	Structured data storage
+OCR	Google ML Kit	IMEI extraction from images
+Storage	Shared Preferences	Local device storage
+Networking	HTTP APIs	Communication between layers
 
 
 
 ---
 
-4. Project Modules
+Project Modules
 
-4.1 Mobile Application (Flutter)
+1. Mobile Application (Flutter)
 
-Handles everything the user interacts with:
+Handles all user interactions:
 
-OTP login
+OTP-based login
 
 Device registration
 
-OCR IMEI extraction
+OCR-based IMEI extraction
 
 Friend linking
 
-Lost phone flagging
+Lost device flagging
 
-Viewing alerts
+Alert viewing
 
 
 
 ---
 
-4.2 Backend Server (Node.js + Express)
+2. Backend Server (Node.js + Express)
 
-Acts as the brain of the system:
+Acts as the system brain:
 
-OTP generation & verification
+OTP generation and verification
 
 Device validation logic
 
@@ -96,7 +111,7 @@ TAC matching
 
 Suspicious device detection
 
-Alert creation
+Alert generation
 
 Database communication
 
@@ -104,66 +119,66 @@ Database communication
 
 ---
 
-4.3 Database (PostgreSQL)
+3. Database (PostgreSQL)
 
-Stores all system data:
+Stores system data:
 
 Table Name	Purpose
 
 users	User accounts
 otp_requests	OTP tracking
 devices	Registered devices
-friend_links	User connections
+friend_links	User relationships
 lost_flags	Lost device records
 alerts	Notifications
-suspicious_devices	Detected suspicious entries
-tac_catalog	IMEI TAC database
+suspicious_devices	Suspicious device entries
+tac_catalog	IMEI TAC reference database
 
 
 
 ---
 
-5. Key Features
+Key Features
 
 Authentication
 
-OTP-based login (secure and simple)
+OTP-based login (simple and secure)
 
 
 Device Handling
 
-Automatic device info collection
+Automatic device information collection
 
-IMEI extraction using OCR (no manual typing)
+OCR-based IMEI extraction (no manual input)
 
 
 Social Layer
 
 Friend linking via OTP
 
-Custom naming + default names
+Custom and default naming
 
-Edit names anytime
+Editable names
 
 
 Security Features
 
 Lost phone flagging / unflagging
 
-TAC-based verification
+TAC-based validation
 
 Suspicious device detection
 
 
 Alerts
 
-User notified if a duplicate/suspicious device appears
+Notifications for duplicate or suspicious device activity
 
 
 
 ---
 
-6. Project Folder Structure
+Project Structure
 
 project-root/
 │
@@ -180,11 +195,9 @@ project-root/
 
 ---
 
-7. Complete Setup Guide (Step-by-Step)
+Setup Guide (Windows / Linux / macOS)
 
-Step 1: Install Required Software
-
-Install these first:
+1. Install Required Software
 
 Flutter SDK
 
@@ -200,7 +213,7 @@ VS Code (or any editor)
 
 ---
 
-Step 2: Setup Database
+2. Setup Database
 
 1. Open PostgreSQL / pgAdmin
 
@@ -211,43 +224,37 @@ Step 2: Setup Database
 
 imei_db
 
-3. Open Query Tool
-
-
-4. Run:
+3. Run:
 
 
 
 database_setup.sql
 
-This creates all required tables automatically.
-
 
 ---
 
-Step 3: Configure Backend
+3. Configure Backend
 
-1. Go to backend/
-
-
-2. Open server.js
-
-
-3. Verify database config:
-
-
+Go to backend/server.js and verify:
 
 database: imei_db
 user: postgres
 host: localhost
 port: 3000
 
-Modify only if needed.
+Modify only if necessary.
 
 
 ---
 
-Step 4: Install Backend Dependencies
+4. Install Backend Dependencies
+
+Windows (PowerShell / CMD)
+
+cd backend
+npm install
+
+Linux / macOS
 
 cd backend
 npm install
@@ -255,7 +262,13 @@ npm install
 
 ---
 
-Step 5: Start Backend Server
+5. Start Backend Server
+
+Windows
+
+node server.js
+
+Linux / macOS
 
 node server.js
 
@@ -266,37 +279,35 @@ Server running on port 4000
 
 ---
 
-Step 6: Configure Flutter Backend URL
+6. Configure Flutter Backend URL
 
-1. Open:
-
-
+Edit:
 
 imei_app/lib/main.dart
 
-2. Find:
-
-
-
-baseUrl
-
-3. Set it to:
-
-
+Set baseUrl:
 
 Emulator:
 
+
 http://10.0.2.2:4000
 
-Real Phone (same WiFi):
+Real Device:
+
 
 http://<your-laptop-ip>:4000
 
 
-
 ---
 
-Step 7: Install Flutter Dependencies
+7. Install Flutter Dependencies
+
+Windows
+
+cd imei_app
+flutter pub get
+
+Linux / macOS
 
 cd imei_app
 flutter pub get
@@ -304,35 +315,22 @@ flutter pub get
 
 ---
 
-Step 8: Run the App
+8. Run the App
 
-Option 1: USB Device
+USB Device
 
-Enable Developer Options
+flutter run
 
-Enable USB Debugging
+Emulator
 
-
-Run:
+Start emulator, then:
 
 flutter run
 
 
 ---
 
-Option 2: Emulator
-
-Start emulator from Android Studio
-
-Run:
-
-
-flutter run
-
-
----
-
-8. Build APK (Install on Phone)
+Build APK
 
 flutter clean
 flutter pub get
@@ -342,22 +340,21 @@ APK location:
 
 build/app/outputs/flutter-apk/
 
-Install this APK on your phone.
-
 
 ---
 
-9. Testing Guide (Full Flow)
+Testing Guide
 
-Follow this sequence:
+Step-by-step flow:
 
 1. Start backend
 
-node server.js
 
 2. Open app
 
-3. Test features step-by-step
+
+
+Test Features
 
 Authentication
 
@@ -368,51 +365,44 @@ Verify OTP
 
 Device Registration
 
-Check auto device info
+Auto device info
 
-Upload screenshot → OCR extracts IMEI
+Upload screenshot → IMEI extraction
 
 
 Friend Linking
 
 Add friend via OTP
 
-Try:
-
-Custom name
-
-No name → default name
-
+Test naming options
 
 
 Editing
 
-Change friend names
+Modify friend names
 
 
 Lost Device
 
-Flag device
-
-Unflag device
+Flag / unflag device
 
 
 Suspicious Detection
 
-Test mismatched TAC + device details
+Test mismatched TAC
 
 
 Alerts
 
-Verify alert creation
+Verify alert generation
 
 
 
 ---
 
-10. TAC Catalog
+TAC Catalog
 
-The database includes sample TAC entries such as:
+Includes sample entries:
 
 Apple
 
@@ -425,27 +415,25 @@ OnePlus
 Nothing
 
 
-Example Entry:
+Example:
 
 35081449 → Samsung Galaxy M1565B
-
-Used for realistic testing of device validation.
 
 
 ---
 
-11. System Workflow (Simple Explanation)
+System Workflow
 
 1. User logs in via OTP
 
 
-2. App collects device info
+2. Device info collected
 
 
-3. IMEI extracted using OCR
+3. IMEI extracted via OCR
 
 
-4. Device is registered
+4. Device registered
 
 
 5. Backend checks:
@@ -459,41 +447,41 @@ Device consistency
 6. If mismatch → marked suspicious
 
 
-7. Alerts sent to original user
+7. Alerts generated
 
 
 
 
 ---
 
-12. Important Notes
+Important Notes
 
 Backend must be running before app
 
-Database must be set up first
+Database must be initialized first
 
 Correct baseUrl is critical
 
 OCR requires permissions
 
-Unregister action shows confirmation
+Unregister actions include confirmation
 
 
 
 ---
 
-13. Conclusion
+Conclusion
 
-This project demonstrates how multiple systems work together:
+This project demonstrates integration of:
 
-Mobile app (user interaction)
+Mobile frontend
 
-Backend (logic & validation)
+Backend logic system
 
-Database (persistent storage)
+Database storage
 
 
-It integrates:
+Key concepts implemented:
 
 OTP authentication
 
@@ -506,12 +494,12 @@ Social trust network
 Security alert system
 
 
-Result:
-A complete and practical solution for device authenticity and tracking.
+Outcome:
+A practical system for detecting and managing device authenticity and misuse.
 
 
 ---
 
-Prepared By
+Contributors
 
 Group 19
