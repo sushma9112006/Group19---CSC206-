@@ -49,7 +49,7 @@ User → Flutter App → Node.js Backend → PostgreSQL
 
 ---
 
-# 🚀 COMPLETE SETUP (VERY DETAILED)
+# COMPLETE SETUP 
 
 ---
 
@@ -64,7 +64,7 @@ Install:
 
 ---
 
-## Step 2: Setup Database (VERY IMPORTANT)
+## Step 2: Setup Database 
 
 ### 2.1 Open PostgreSQL
 
@@ -149,7 +149,7 @@ flutter pub get
 
 ---
 
-### 4.3 Set backend URL (VERY IMPORTANT)
+### 4.3 Set backend URL 
 
 Open:
 
@@ -204,9 +204,8 @@ build/app/outputs/flutter-apk/
 
 ---
 
-#  TESTING (STEP BY STEP)
+#  TESTING 
 
-Follow this exact order:
 
 ---
 
