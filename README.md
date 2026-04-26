@@ -194,13 +194,17 @@ flutter run
 
 ---
 
-## Step 6: Build APK (Install on Phone)
-
-flutter clean flutter pub get flutter build apk
+## Step 6: Build APK
+Run these commands in terminal, after opening the folder having the dart code:
+flutter clean 
+flutter pub get 
+flutter build apk
 
 APK location:
 
 build/app/outputs/flutter-apk/
+
+Install this APK on mobile
 
 ---
 
